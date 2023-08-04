@@ -1,0 +1,31 @@
+{
+  "name": "pinch-to-zoom-like-instagram",
+  "version": "1.0.0",
+  "description": "pinch to zoom function like instagram.  for vanilla JS.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rnrydnd/pinch-to-zoom-like-instagram.git"
+  },
+  "keywords": [
+    "instagram",
+    "pinch",
+    "pinchtozoom",
+    "picture",
+    "zoom",
+    "javascript",
+    "vanilla"
+  ],
+  "author": {
+    "name": "GyoungGu",
+    "email": "mesquaker@gmail.com"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rnrydnd/pinch-to-zoom-like-instagram/issues"
+  },
+  "homepage": "https://github.com/rnrydnd/pinch-to-zoom-like-instagram#readme"
+}
