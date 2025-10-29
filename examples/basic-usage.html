@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>PinchZoom - 기본 사용법</title>
+    <title>PinchZoom - Basic Usage</title>
     <style>
       body {
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
@@ -73,20 +73,20 @@
   </head>
   <body>
     <div class="container">
-      <h1>🔍 PinchZoom 기본 사용법</h1>
+      <h1>🔍 PinchZoom Basic Usage</h1>
 
       <div class="example">
-        <h2>1. 단일 이미지</h2>
+        <h2>1. Single Image</h2>
         <p>
-          가장 기본적인 사용법입니다. ID 선택자를 사용하여 하나의 이미지에 핀치
-          줌을 적용합니다.
+          This is the most basic usage. Apply pinch zoom to a single image using
+          an ID selector.
         </p>
 
         <img
           id="single-image"
           class="demo-image"
           src="https://picsum.photos/400/300?random=1"
-          alt="단일 이미지 예제"
+          alt="Single Image Example"
         />
 
         <div class="code">
@@ -99,14 +99,14 @@ const pinchZoom = new PinchZoom('#single-image');</pre
       </div>
 
       <div class="example">
-        <h2>2. 커스텀 옵션</h2>
-        <p>배경색과 최대 확대 배율을 커스터마이징한 예제입니다.</p>
+        <h2>2. Custom Options</h2>
+        <p>Example with customized background color and maximum scale ratio.</p>
 
         <img
           id="custom-image"
           class="demo-image"
           src="https://picsum.photos/400/300?random=2"
-          alt="커스텀 옵션 예제"
+          alt="Custom Options Example"
         />
 
         <div class="code">
@@ -121,14 +121,14 @@ const customZoom = new PinchZoom('#custom-image', {
       </div>
 
       <div class="example">
-        <h2>3. 팩토리 함수 사용</h2>
-        <p>createPinchZoom 팩토리 함수를 사용한 예제입니다.</p>
+        <h2>3. Using Factory Function</h2>
+        <p>Example using the createPinchZoom factory function.</p>
 
         <img
           id="factory-image"
           class="demo-image"
           src="https://picsum.photos/400/300?random=3"
-          alt="팩토리 함수 예제"
+          alt="Factory Function Example"
         />
 
         <div class="code">
@@ -144,14 +144,14 @@ const factoryZoom = createPinchZoom('#factory-image', {
       </div>
 
       <div class="example">
-        <h2>4. 안전한 초기화</h2>
-        <p>에러를 던지지 않는 안전한 초기화 방법입니다.</p>
+        <h2>4. Safe Initialization</h2>
+        <p>Safe initialization method that doesn't throw errors.</p>
 
         <img
           id="safe-image"
           class="demo-image"
           src="https://picsum.photos/400/300?random=4"
-          alt="안전한 초기화 예제"
+          alt="Safe Initialization Example"
         />
 
         <div class="code">
@@ -163,26 +163,25 @@ const result = safePinchZoom('#safe-image', {
 });
 
 if (result.success) {
-    console.log('초기화 성공:', result.instance);
+    console.log('Initialization successful:', result.instance);
 } else {
-    console.error('초기화 실패:', result.error);
+    console.error('Initialization failed:', result.error);
 }</pre
           >
         </div>
       </div>
 
       <div class="note">
-        <strong>💡 사용 팁:</strong>
+        <strong>💡 Usage Tips:</strong>
         <ul>
           <li>
-            모바일 기기에서 두 손가락으로 이미지를 핀치하여 확대/축소할 수
-            있습니다
+            On mobile devices, you can pinch images with two fingers to zoom
+            in/out
           </li>
+          <li>On desktop, you can use mouse wheel (if supported by browser)</li>
           <li>
-            데스크톱에서는 마우스 휠을 사용할 수 있습니다 (브라우저 지원 시)
-          </li>
-          <li>
-            이미지가 완전히 로드된 후에 PinchZoom을 초기화하는 것이 좋습니다
+            It's recommended to initialize PinchZoom after images are fully
+            loaded
           </li>
         </ul>
       </div>
@@ -195,31 +194,31 @@ if (result.success) {
         safePinchZoom,
       } from "../src/index.js";
 
-      // 1. 단일 이미지
+      // 1. Single Image
       const pinchZoom = new PinchZoom("#single-image");
 
-      // 2. 커스텀 옵션
+      // 2. Custom Options
       const customZoom = new PinchZoom("#custom-image", {
         backgroundColor: "rgba(0, 0, 0, 0.8)",
         maxScale: 4,
         transitionDuration: "0.5s",
       });
 
-      // 3. 팩토리 함수 사용
+      // 3. Using Factory Function
       const factoryZoom = createPinchZoom("#factory-image", {
         backgroundColor: "rgba(255, 255, 255, 0.9)",
         maxScale: 3,
       });
 
-      // 4. 안전한 초기화
+      // 4. Safe Initialization
       const result = safePinchZoom("#safe-image", {
         backgroundColor: "rgba(0, 100, 255, 0.6)",
       });
 
       if (result.success) {
-        console.log("안전한 초기화 성공:", result.instance);
+        console.log("Safe initialization successful:", result.instance);
       } else {
-        console.error("안전한 초기화 실패:", result.error);
+        console.error("Safe initialization failed:", result.error);
       }
     </script>
   </body>

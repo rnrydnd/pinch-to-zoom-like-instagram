@@ -1,5 +1,5 @@
 /**
- * 이미지 스케일링과 위치 조정을 담당하는 ZoomController 클래스
+ * ZoomController class responsible for image scaling and positioning
  */
 
 import {
@@ -25,23 +25,23 @@ export class ZoomController {
     this.currentTranslateY = 0;
     this.initialPosition = { x: 0, y: 0 };
 
-    // CSS 변환 지원 확인
+    // Check CSS transform support
     this.transformSupport = getTransformSupport();
 
     this.setupElement();
   }
 
   /**
-   * 요소 초기 설정
+   * Initial element setup
    */
   setupElement() {
     return errorHandler.safeExecute(
       () => {
-        // 크로스 브라우저 트랜지션 설정
+        // Set up cross-browser transition
         const transitionValue = `transform ${this.options.transitionDuration} ease-out`;
         applyTransition(this.element, transitionValue);
 
-        // 변환을 지원하지 않는 브라우저를 위한 폴백 트랜지션
+        // Fallback transition for browsers that don't support transforms
         if (!this.transformSupport.supported) {
           const fallbackTransition = `width ${this.options.transitionDuration} ease-out, height ${this.options.transitionDuration} ease-out`;
           applyTransition(this.element, fallbackTransition);
@@ -55,15 +55,15 @@ export class ZoomController {
   }
 
   /**
-   * CSS 변환을 적용합니다
-   * @param {number} scale - 스케일 값
-   * @param {number} translateX - X축 이동값
-   * @param {number} translateY - Y축 이동값
+   * Apply CSS transform
+   * @param {number} scale - Scale value
+   * @param {number} translateX - X-axis translation
+   * @param {number} translateY - Y-axis translation
    */
   applyTransform(scale, translateX = 0, translateY = 0) {
     return errorHandler.safeExecute(
       () => {
-        // 스케일 값 제한
+        // Clamp scale value
         const clampedScale = clamp(
           scale,
           this.options.minScale,
@@ -78,11 +78,11 @@ export class ZoomController {
           const transform = `scale(${clampedScale}) translate(${translateX}px, ${translateY}px)`;
           applyTransform(this.element, transform);
         } else {
-          // 변환을 지원하지 않는 브라우저를 위한 폴백
+          // Fallback for browsers that don't support transforms
           this.applyFallbackTransform(clampedScale, translateX, translateY);
         }
 
-        // z-index 및 position 설정 (확대 시)
+        // Set z-index and position (when zoomed)
         if (clampedScale > 1) {
           this.element.style.zIndex = this.options.zIndex || "1000";
           this.element.style.position = "relative";
@@ -96,13 +96,13 @@ export class ZoomController {
   }
 
   /**
-   * 변환을 지원하지 않는 브라우저를 위한 폴백
-   * @param {number} scale - 스케일 값
-   * @param {number} translateX - X축 이동값 (현재 미사용)
-   * @param {number} translateY - Y축 이동값 (현재 미사용)
+   * Fallback for browsers that don't support transforms
+   * @param {number} scale - Scale value
+   * @param {number} translateX - X-axis translation (currently unused)
+   * @param {number} translateY - Y-axis translation (currently unused)
    */
   applyFallbackTransform(scale, translateX, translateY) {
-    // 기본적인 크기 조정만 지원
+    // Only basic size adjustment is supported
     const originalWidth = this.element.naturalWidth || this.element.offsetWidth;
     const originalHeight =
       this.element.naturalHeight || this.element.offsetHeight;
@@ -114,7 +114,7 @@ export class ZoomController {
   }
 
   /**
-   * 변환을 초기 상태로 리셋합니다
+   * Reset transform to initial state
    */
   resetTransform() {
     return errorHandler.safeExecute(
@@ -126,7 +126,7 @@ export class ZoomController {
         if (this.transformSupport.supported) {
           applyTransform(this.element, "scale(1) translate(0px, 0px)");
         } else {
-          // 폴백: 원래 크기로 복원
+          // Fallback: restore to original size
           this.element.style.width = "";
           this.element.style.height = "";
         }
@@ -139,10 +139,10 @@ export class ZoomController {
   }
 
   /**
-   * 스케일 값을 계산합니다
-   * @param {number} initialDistance - 초기 거리
-   * @param {number} currentDistance - 현재 거리
-   * @returns {number} 계산된 스케일 값
+   * Calculate scale value
+   * @param {number} initialDistance - Initial distance
+   * @param {number} currentDistance - Current distance
+   * @returns {number} Calculated scale value
    */
   calculateScale(initialDistance, currentDistance) {
     if (initialDistance === 0) return 1;
@@ -152,10 +152,10 @@ export class ZoomController {
   }
 
   /**
-   * 두 터치 포인트의 중점을 계산합니다
-   * @param {Touch} touch1 - 첫 번째 터치 포인트
-   * @param {Touch} touch2 - 두 번째 터치 포인트
-   * @returns {Object} 중점 좌표 {x, y}
+   * Calculate midpoint of two touch points
+   * @param {Touch} touch1 - First touch point
+   * @param {Touch} touch2 - Second touch point
+   * @returns {Object} Midpoint coordinates {x, y}
    */
   calculateMidpoint(touch1, touch2) {
     return {
@@ -165,13 +165,13 @@ export class ZoomController {
   }
 
   /**
-   * 트랜지션 종료 이벤트 리스너를 추가합니다 (크로스 브라우저 지원)
-   * @param {Function} callback - 트랜지션 종료 시 실행할 콜백
+   * Add transition end event listener (cross-browser support)
+   * @param {Function} callback - Callback to execute on transition end
    */
   onTransitionEnd(callback) {
     const handleTransitionEnd = () => {
       if (this.currentScale === 1) {
-        // 원래 상태로 돌아왔을 때 z-index와 position 초기화
+        // Reset z-index and position when returned to original state
         this.element.style.zIndex = "";
         this.element.style.position = "";
       }
@@ -181,7 +181,7 @@ export class ZoomController {
       }
     };
 
-    // 크로스 브라우저 트랜지션 종료 이벤트 지원
+    // Cross-browser transition end event support
     const transitionEndEvents = [
       "transitionend",
       "webkitTransitionEnd",
@@ -198,8 +198,8 @@ export class ZoomController {
   }
 
   /**
-   * 현재 변환 상태를 반환합니다
-   * @returns {Object} 현재 변환 상태
+   * Return current transform state
+   * @returns {Object} Current transform state
    */
   getTransformState() {
     return {
@@ -211,18 +211,18 @@ export class ZoomController {
   }
 
   /**
-   * 옵션을 업데이트합니다
-   * @param {Object} newOptions - 새로운 옵션
+   * Update options
+   * @param {Object} newOptions - New options
    */
   updateOptions(newOptions) {
     this.options = { ...this.options, ...newOptions };
 
-    // 트랜지션 업데이트
+    // Update transition
     if (newOptions.transitionDuration) {
       const transitionValue = `transform ${this.options.transitionDuration} ease-out`;
       applyTransition(this.element, transitionValue);
 
-      // 변환을 지원하지 않는 브라우저를 위한 폴백 트랜지션
+      // Fallback transition for browsers that don't support transforms
       if (!this.transformSupport.supported) {
         const fallbackTransition = `width ${this.options.transitionDuration} ease-out, height ${this.options.transitionDuration} ease-out`;
         applyTransition(this.element, fallbackTransition);
@@ -231,14 +231,14 @@ export class ZoomController {
   }
 
   /**
-   * ZoomController를 정리합니다
+   * Clean up ZoomController
    */
   destroy() {
     return errorHandler.safeExecute(
       () => {
         this.resetTransform();
 
-        // 크로스 브라우저 트랜지션 초기화
+        // Reset cross-browser transition
         applyTransition(this.element, "");
 
         this.element.style.zIndex = "";

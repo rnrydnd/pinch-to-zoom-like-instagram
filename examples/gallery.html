@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>PinchZoom - 이미지 갤러리</title>
+    <title>PinchZoom - Image Gallery</title>
     <style>
       * {
         box-sizing: border-box;
@@ -169,17 +169,16 @@
   </head>
   <body>
     <div class="header">
-      <h1>🖼️ PinchZoom 갤러리 예제</h1>
-      <p>다양한 갤러리 레이아웃에서 핀치 줌 기능을 확인해보세요</p>
+      <h1>🖼️ PinchZoom Gallery Example</h1>
+      <p>Experience pinch zoom functionality in various gallery layouts</p>
     </div>
 
     <div class="container">
-      <!-- 그리드 갤러리 -->
+      <!-- Grid Gallery -->
       <div class="gallery-section">
-        <h2>📱 그리드 갤러리</h2>
+        <h2>📱 Grid Gallery</h2>
         <p>
-          균등한 크기의 그리드 레이아웃입니다. 모든 이미지가 동일한 높이로
-          표시됩니다.
+          Uniform grid layout. All images are displayed with the same height.
         </p>
 
         <div class="gallery" id="grid-gallery">
@@ -187,53 +186,53 @@
             <img
               class="grid-image"
               src="https://picsum.photos/400/300?random=1"
-              alt="그리드 이미지 1"
+              alt="Grid Image 1"
             />
           </div>
           <div class="gallery-item">
             <img
               class="grid-image"
               src="https://picsum.photos/400/300?random=2"
-              alt="그리드 이미지 2"
+              alt="Grid Image 2"
             />
           </div>
           <div class="gallery-item">
             <img
               class="grid-image"
               src="https://picsum.photos/400/300?random=3"
-              alt="그리드 이미지 3"
+              alt="Grid Image 3"
             />
           </div>
           <div class="gallery-item">
             <img
               class="grid-image"
               src="https://picsum.photos/400/300?random=4"
-              alt="그리드 이미지 4"
+              alt="Grid Image 4"
             />
           </div>
           <div class="gallery-item">
             <img
               class="grid-image"
               src="https://picsum.photos/400/300?random=5"
-              alt="그리드 이미지 5"
+              alt="Grid Image 5"
             />
           </div>
           <div class="gallery-item">
             <img
               class="grid-image"
               src="https://picsum.photos/400/300?random=6"
-              alt="그리드 이미지 6"
+              alt="Grid Image 6"
             />
           </div>
         </div>
       </div>
 
-      <!-- 메이슨리 갤러리 -->
+      <!-- Masonry Gallery -->
       <div class="gallery-section">
-        <h2>🧱 메이슨리 갤러리</h2>
+        <h2>🧱 Masonry Gallery</h2>
         <p>
-          Pinterest 스타일의 메이슨리 레이아웃입니다. 이미지의 원본 비율이
-          유지됩니다.
+          Pinterest-style masonry layout. Original aspect ratios of images are
+          preserved.
         </p>
 
         <div class="masonry-gallery" id="masonry-gallery">
@@ -241,88 +240,90 @@
             <img
               class="masonry-image"
               src="https://picsum.photos/300/400?random=7"
-              alt="메이슨리 이미지 1"
+              alt="Masonry Image 1"
             />
           </div>
           <div class="masonry-item">
             <img
               class="masonry-image"
               src="https://picsum.photos/300/250?random=8"
-              alt="메이슨리 이미지 2"
+              alt="Masonry Image 2"
             />
           </div>
           <div class="masonry-item">
             <img
               class="masonry-image"
               src="https://picsum.photos/300/350?random=9"
-              alt="메이슨리 이미지 3"
+              alt="Masonry Image 3"
             />
           </div>
           <div class="masonry-item">
             <img
               class="masonry-image"
               src="https://picsum.photos/300/300?random=10"
-              alt="메이슨리 이미지 4"
+              alt="Masonry Image 4"
             />
           </div>
           <div class="masonry-item">
             <img
               class="masonry-image"
               src="https://picsum.photos/300/450?random=11"
-              alt="메이슨리 이미지 5"
+              alt="Masonry Image 5"
             />
           </div>
           <div class="masonry-item">
             <img
               class="masonry-image"
               src="https://picsum.photos/300/200?random=12"
-              alt="메이슨리 이미지 6"
+              alt="Masonry Image 6"
             />
           </div>
           <div class="masonry-item">
             <img
               class="masonry-image"
               src="https://picsum.photos/300/380?random=13"
-              alt="메이슨리 이미지 7"
+              alt="Masonry Image 7"
             />
           </div>
           <div class="masonry-item">
             <img
               class="masonry-image"
               src="https://picsum.photos/300/280?random=14"
-              alt="메이슨리 이미지 8"
+              alt="Masonry Image 8"
             />
           </div>
           <div class="masonry-item">
             <img
               class="masonry-image"
               src="https://picsum.photos/300/320?random=15"
-              alt="메이슨리 이미지 9"
+              alt="Masonry Image 9"
             />
           </div>
         </div>
       </div>
 
-      <!-- 컨트롤 패널 -->
+      <!-- Control Panel -->
       <div class="gallery-section">
-        <h2>🎮 갤러리 컨트롤</h2>
+        <h2>🎮 Gallery Controls</h2>
         <div class="controls">
           <button class="btn" onclick="initializeGalleries()">
-            🚀 갤러리 초기화
+            🚀 Initialize Galleries
           </button>
           <button class="btn" onclick="destroyGalleries()">
-            🗑️ 갤러리 제거
+            🗑️ Destroy Galleries
           </button>
           <button class="btn" onclick="updateGalleryOptions()">
-            ⚙️ 옵션 변경
+            ⚙️ Update Options
           </button>
-          <button class="btn" onclick="showGalleryStats()">📊 통계 보기</button>
-          <button class="btn" onclick="addMoreImages()">➕ 이미지 추가</button>
+          <button class="btn" onclick="showGalleryStats()">
+            📊 Show Stats
+          </button>
+          <button class="btn" onclick="addMoreImages()">➕ Add Images</button>
         </div>
 
         <div id="status" class="status">
-          <strong>상태:</strong> 페이지가 로드되었습니다. "갤러리 초기화" 버튼을
-          클릭하세요.
+          <strong>Status:</strong> Page loaded. Click "Initialize Galleries"
+          button to start.
         </div>
       </div>
     </div>
@@ -333,40 +334,40 @@
       let gridGallery = null;
       let masonryGallery = null;
 
-      // 갤러리 초기화
+      // Initialize galleries
       window.initializeGalleries = function () {
         try {
-          updateStatus("🚀 갤러리 초기화 중...", "info");
+          updateStatus("🚀 Initializing galleries...", "info");
 
-          // 기존 인스턴스 정리
+          // Clean up existing instances
           if (gridGallery) gridGallery.destroy();
           if (masonryGallery) masonryGallery.destroy();
 
-          // 그리드 갤러리 초기화
+          // Initialize grid gallery
           gridGallery = new PinchZoom(".grid-image", {
             backgroundColor: "rgba(0, 0, 0, 0.8)",
             maxScale: 4,
             transitionDuration: "0.3s",
           });
 
-          // 메이슨리 갤러리 초기화
+          // Initialize masonry gallery
           masonryGallery = createPinchZoom(".masonry-image", {
             backgroundColor: "rgba(255, 255, 255, 0.9)",
             maxScale: 5,
             transitionDuration: "0.4s",
           });
 
-          updateStatus("✅ 갤러리가 성공적으로 초기화되었습니다.", "success");
+          updateStatus("✅ Galleries initialized successfully.", "success");
         } catch (error) {
           updateStatus(
-            "❌ 갤러리 초기화 중 오류 발생: " + error.message,
+            "❌ Error during gallery initialization: " + error.message,
             "error"
           );
-          console.error("갤러리 초기화 오류:", error);
+          console.error("Gallery initialization error:", error);
         }
       };
 
-      // 갤러리 제거
+      // Destroy galleries
       window.destroyGalleries = function () {
         try {
           if (gridGallery) {
@@ -377,17 +378,17 @@
             masonryGallery.destroy();
             masonryGallery = null;
           }
-          updateStatus("🗑️ 모든 갤러리가 제거되었습니다.", "success");
+          updateStatus("🗑️ All galleries have been destroyed.", "success");
         } catch (error) {
           updateStatus(
-            "❌ 갤러리 제거 중 오류 발생: " + error.message,
+            "❌ Error during gallery destruction: " + error.message,
             "error"
           );
-          console.error("갤러리 제거 오류:", error);
+          console.error("Gallery destruction error:", error);
         }
       };
 
-      // 갤러리 옵션 업데이트
+      // Update gallery options
       window.updateGalleryOptions = function () {
         try {
           const newOptions = {
@@ -403,13 +404,13 @@
             masonryGallery.updateOptions(newOptions);
           }
 
-          updateStatus("⚙️ 갤러리 옵션이 업데이트되었습니다.", "success");
+          updateStatus("⚙️ Gallery options have been updated.", "success");
         } catch (error) {
           updateStatus(
-            "❌ 옵션 업데이트 중 오류 발생: " + error.message,
+            "❌ Error during options update: " + error.message,
             "error"
           );
-          console.error("옵션 업데이트 오류:", error);
+          console.error("Options update error:", error);
         }
       };
 

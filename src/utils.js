@@ -1,12 +1,12 @@
 /**
- * 유틸리티 함수들 - DOM 조작 및 계산을 위한 헬퍼 함수들
+ * Utility functions - Helper functions for DOM manipulation and calculations
  */
 
 /**
- * 두 터치 포인트 사이의 거리를 계산합니다
- * @param {Touch} touch1 - 첫 번째 터치 포인트
- * @param {Touch} touch2 - 두 번째 터치 포인트
- * @returns {number} 두 포인트 사이의 거리
+ * Calculate distance between two touch points
+ * @param {Touch} touch1 - First touch point
+ * @param {Touch} touch2 - Second touch point
+ * @returns {number} Distance between two points
  */
 export function getDistance(touch1, touch2) {
   return Math.hypot(
@@ -16,10 +16,10 @@ export function getDistance(touch1, touch2) {
 }
 
 /**
- * 두 터치 포인트의 중점을 계산합니다
- * @param {Touch} touch1 - 첫 번째 터치 포인트
- * @param {Touch} touch2 - 두 번째 터치 포인트
- * @returns {Object} 중점 좌표 {x, y}
+ * Calculate midpoint of two touch points
+ * @param {Touch} touch1 - First touch point
+ * @param {Touch} touch2 - Second touch point
+ * @returns {Object} Midpoint coordinates {x, y}
  */
 export function getMidpoint(touch1, touch2) {
   return {
@@ -29,11 +29,11 @@ export function getMidpoint(touch1, touch2) {
 }
 
 /**
- * 크로스 브라우저 이벤트 리스너 추가
- * @param {Element} element - 이벤트를 추가할 요소
- * @param {string} event - 이벤트 타입
- * @param {Function} handler - 이벤트 핸들러
- * @param {Object|boolean} options - 이벤트 옵션 (객체 또는 useCapture boolean)
+ * Add cross-browser event listener
+ * @param {Element} element - Element to add event to
+ * @param {string} event - Event type
+ * @param {Function} handler - Event handler
+ * @param {Object|boolean} options - Event options (object or useCapture boolean)
  */
 export function addEvent(element, event, handler, options = {}) {
   if (!element || !event || !handler) {
@@ -42,13 +42,13 @@ export function addEvent(element, event, handler, options = {}) {
 
   try {
     if (element.addEventListener) {
-      // 현대 브라우저
+      // Modern browsers
       element.addEventListener(event, handler, options);
     } else if (element.attachEvent) {
-      // IE8 이하
+      // IE8 and below
       element.attachEvent("on" + event, handler);
     } else {
-      // 매우 오래된 브라우저 폴백
+      // Very old browser fallback
       element["on" + event] = handler;
     }
     return true;
@@ -59,11 +59,11 @@ export function addEvent(element, event, handler, options = {}) {
 }
 
 /**
- * 크로스 브라우저 이벤트 리스너 제거
- * @param {Element} element - 이벤트를 제거할 요소
- * @param {string} event - 이벤트 타입
- * @param {Function} handler - 이벤트 핸들러
- * @param {Object|boolean} options - 이벤트 옵션 (addEventListener와 동일한 옵션)
+ * Remove cross-browser event listener
+ * @param {Element} element - Element to remove event from
+ * @param {string} event - Event type
+ * @param {Function} handler - Event handler
+ * @param {Object|boolean} options - Event options (same as addEventListener)
  */
 export function removeEvent(element, event, handler, options = {}) {
   if (!element || !event || !handler) {
@@ -72,13 +72,13 @@ export function removeEvent(element, event, handler, options = {}) {
 
   try {
     if (element.removeEventListener) {
-      // 현대 브라우저
+      // Modern browsers
       element.removeEventListener(event, handler, options);
     } else if (element.detachEvent) {
-      // IE8 이하
+      // IE8 and below
       element.detachEvent("on" + event, handler);
     } else {
-      // 매우 오래된 브라우저 폴백
+      // Very old browser fallback
       element["on" + event] = null;
     }
     return true;
@@ -89,33 +89,33 @@ export function removeEvent(element, event, handler, options = {}) {
 }
 
 /**
- * 이벤트 객체를 정규화합니다 (크로스 브라우저 호환성)
- * @param {Event} event - 원본 이벤트 객체
- * @returns {Event} 정규화된 이벤트 객체
+ * Normalize event object (cross-browser compatibility)
+ * @param {Event} event - Original event object
+ * @returns {Event} Normalized event object
  */
 export function normalizeEvent(event) {
-  // IE에서는 window.event를 사용
+  // Use window.event in IE
   event = event || window.event;
 
   if (!event) {
     return null;
   }
 
-  // preventDefault 메서드 추가 (IE 호환성)
+  // Add preventDefault method (IE compatibility)
   if (!event.preventDefault) {
     event.preventDefault = function () {
       event.returnValue = false;
     };
   }
 
-  // stopPropagation 메서드 추가 (IE 호환성)
+  // Add stopPropagation method (IE compatibility)
   if (!event.stopPropagation) {
     event.stopPropagation = function () {
       event.cancelBubble = true;
     };
   }
 
-  // target 속성 정규화 (IE에서는 srcElement 사용)
+  // Normalize target property (IE uses srcElement)
   if (!event.target) {
     event.target = event.srcElement;
   }
@@ -124,18 +124,18 @@ export function normalizeEvent(event) {
 }
 
 /**
- * 요소가 이미지인지 확인합니다
- * @param {Element} element - 확인할 요소
- * @returns {boolean} 이미지 요소인지 여부
+ * Check if element is an image
+ * @param {Element} element - Element to check
+ * @returns {boolean} Whether element is an image
  */
 export function isImageElement(element) {
   return element && element.tagName && element.tagName.toLowerCase() === "img";
 }
 
 /**
- * 선택자 또는 DOM 요소를 배열로 변환합니다
- * @param {string|Element|NodeList} target - 선택자, DOM 요소 또는 NodeList
- * @returns {Element[]} DOM 요소 배열
+ * Convert selector or DOM element to array
+ * @param {string|Element|NodeList} target - Selector, DOM element, or NodeList
+ * @returns {Element[]} Array of DOM elements
  */
 export function getElements(target) {
   if (typeof target === "string") {
@@ -149,19 +149,19 @@ export function getElements(target) {
 }
 
 /**
- * 값을 최소값과 최대값 사이로 제한합니다
- * @param {number} value - 제한할 값
- * @param {number} min - 최소값
- * @param {number} max - 최대값
- * @returns {number} 제한된 값
+ * Clamp value between minimum and maximum
+ * @param {number} value - Value to clamp
+ * @param {number} min - Minimum value
+ * @param {number} max - Maximum value
+ * @returns {number} Clamped value
  */
 export function clamp(value, min, max) {
   return Math.min(Math.max(value, min), max);
 }
 
 /**
- * CSS 변환을 지원하는지 확인하고 지원되는 속성을 반환합니다
- * @returns {Object} CSS 변환 지원 정보 {supported, property, prefixed}
+ * Check CSS transform support and return supported property
+ * @returns {Object} CSS transform support info {supported, property, prefixed}
  */
 export function getTransformSupport() {
   const testElement = document.createElement("div");
@@ -191,17 +191,17 @@ export function getTransformSupport() {
 }
 
 /**
- * CSS 변환을 지원하는지 확인합니다 (하위 호환성)
- * @returns {boolean} CSS 변환 지원 여부
+ * Check CSS transform support (backward compatibility)
+ * @returns {boolean} Whether CSS transforms are supported
  */
 export function supportsTransform() {
   return getTransformSupport().supported;
 }
 
 /**
- * 크로스 브라우저 CSS 변환 적용
- * @param {Element} element - 변환을 적용할 요소
- * @param {string} transformValue - 변환 값 (예: "scale(2) translate(10px, 20px)")
+ * Apply cross-browser CSS transform
+ * @param {Element} element - Element to apply transform to
+ * @param {string} transformValue - Transform value (e.g., "scale(2) translate(10px, 20px)")
  */
 export function applyTransform(element, transformValue) {
   const support = getTransformSupport();
@@ -209,7 +209,7 @@ export function applyTransform(element, transformValue) {
   if (support.supported) {
     element.style[support.property] = transformValue;
 
-    // 추가 벤더 프리픽스 적용 (안전성을 위해)
+    // Apply additional vendor prefixes (for safety)
     if (element.style.webkitTransform !== undefined) {
       element.style.webkitTransform = transformValue;
     }
@@ -226,9 +226,9 @@ export function applyTransform(element, transformValue) {
 }
 
 /**
- * 크로스 브라우저 CSS 트랜지션 적용
- * @param {Element} element - 트랜지션을 적용할 요소
- * @param {string} transitionValue - 트랜지션 값
+ * Apply cross-browser CSS transition
+ * @param {Element} element - Element to apply transition to
+ * @param {string} transitionValue - Transition value
  */
 export function applyTransition(element, transitionValue) {
   const transitionProperties = [
@@ -247,8 +247,8 @@ export function applyTransition(element, transitionValue) {
 }
 
 /**
- * 터치 이벤트 지원 정보를 반환합니다
- * @returns {Object} 터치 이벤트 지원 정보
+ * Return touch event support information
+ * @returns {Object} Touch event support information
  */
 export function getTouchSupport() {
   const hasTouch = "ontouchstart" in window;
@@ -274,16 +274,16 @@ export function getTouchSupport() {
 }
 
 /**
- * 터치 이벤트를 지원하는지 확인합니다 (하위 호환성)
- * @returns {boolean} 터치 이벤트 지원 여부
+ * Check touch event support (backward compatibility)
+ * @returns {boolean} Whether touch events are supported
  */
 export function supportsTouchEvents() {
   return getTouchSupport().supported;
 }
 
 /**
- * 브라우저별 터치 이벤트 이름을 반환합니다
- * @returns {Object} 터치 이벤트 이름 매핑
+ * Return browser-specific touch event names
+ * @returns {Object} Touch event name mapping
  */
 export function getTouchEventNames() {
   const support = getTouchSupport();
@@ -311,7 +311,7 @@ export function getTouchEventNames() {
     };
   }
 
-  // 폴백: 마우스 이벤트
+  // Fallback: mouse events
   return {
     start: "mousedown",
     move: "mousemove",
@@ -321,9 +321,9 @@ export function getTouchEventNames() {
 }
 
 /**
- * 입력 대상이 유효한지 검증합니다
- * @param {any} target - 검증할 대상
- * @returns {Object} 검증 결과 {isValid, type, error}
+ * Validate if input target is valid
+ * @param {any} target - Target to validate
+ * @returns {Object} Validation result {isValid, type, error}
  */
 export function validateTarget(target) {
   if (target === null || target === undefined) {
@@ -343,7 +343,7 @@ export function validateTarget(target) {
       };
     }
 
-    // CSS 선택자 유효성 간단 검사
+    // Simple CSS selector validity check
     try {
       document.querySelector(target);
       return {
@@ -384,10 +384,10 @@ export function validateTarget(target) {
 }
 
 /**
- * 설정 옵션을 검증하고 기본값으로 보정합니다
- * @param {Object} options - 검증할 옵션
- * @param {Object} defaults - 기본값
- * @returns {Object} 검증된 옵션
+ * Validate configuration options and correct with defaults
+ * @param {Object} options - Options to validate
+ * @param {Object} defaults - Default values
+ * @returns {Object} Validated options
  */
 export function validateAndSanitizeOptions(options, defaults) {
   const sanitized = { ...defaults };
@@ -397,7 +397,7 @@ export function validateAndSanitizeOptions(options, defaults) {
     return { sanitized, errors: ["Options must be an object"] };
   }
 
-  // backgroundColor 검증
+  // Validate backgroundColor
   if (options.backgroundColor !== undefined) {
     if (
       typeof options.backgroundColor === "string" &&
@@ -409,7 +409,7 @@ export function validateAndSanitizeOptions(options, defaults) {
     }
   }
 
-  // maxScale 검증
+  // Validate maxScale
   if (options.maxScale !== undefined) {
     const maxScale = Number(options.maxScale);
     if (!isNaN(maxScale) && maxScale > 1 && maxScale <= 10) {
@@ -421,7 +421,7 @@ export function validateAndSanitizeOptions(options, defaults) {
     }
   }
 
-  // minScale 검증
+  // Validate minScale
   if (options.minScale !== undefined) {
     const minScale = Number(options.minScale);
     if (!isNaN(minScale) && minScale >= 0.1 && minScale <= 1) {
@@ -433,7 +433,7 @@ export function validateAndSanitizeOptions(options, defaults) {
     }
   }
 
-  // transitionDuration 검증
+  // Validate transitionDuration
   if (options.transitionDuration !== undefined) {
     if (
       typeof options.transitionDuration === "string" &&
@@ -445,7 +445,7 @@ export function validateAndSanitizeOptions(options, defaults) {
     }
   }
 
-  // zIndex 검증
+  // Validate zIndex
   if (options.zIndex !== undefined) {
     const zIndex = Number(options.zIndex);
     if (!isNaN(zIndex) && Number.isInteger(zIndex) && zIndex >= 0) {
@@ -457,7 +457,7 @@ export function validateAndSanitizeOptions(options, defaults) {
     }
   }
 
-  // minScale이 maxScale보다 큰 경우 처리
+  // Handle case where minScale is greater than maxScale
   if (sanitized.minScale >= sanitized.maxScale) {
     errors.push(
       `minScale (${sanitized.minScale}) must be less than maxScale (${sanitized.maxScale})`
@@ -469,9 +469,9 @@ export function validateAndSanitizeOptions(options, defaults) {
 }
 
 /**
- * 요소가 이미지로 사용 가능한지 확인합니다 (img 태그 또는 background-image가 있는 요소)
- * @param {Element} element - 확인할 요소
- * @returns {Object} 검증 결과 {isValid, type, warning}
+ * Check if element can be used as image (img tag or element with background-image)
+ * @param {Element} element - Element to check
+ * @returns {Object} Validation result {isValid, type, warning}
  */
 export function validateImageElement(element) {
   if (!element || !element.tagName) {
@@ -484,7 +484,7 @@ export function validateImageElement(element) {
 
   const tagName = element.tagName.toLowerCase();
 
-  // img 태그인 경우
+  // If img tag
   if (tagName === "img") {
     return {
       isValid: true,
@@ -493,7 +493,7 @@ export function validateImageElement(element) {
     };
   }
 
-  // background-image가 있는 요소인 경우
+  // If element with background-image
   const computedStyle = window.getComputedStyle(element);
   const backgroundImage = computedStyle.backgroundImage;
 
@@ -514,8 +514,8 @@ export function validateImageElement(element) {
 }
 
 /**
- * DOM 환경이 준비되었는지 확인합니다
- * @returns {boolean} DOM 준비 상태
+ * Check if DOM environment is ready
+ * @returns {boolean} DOM ready state
  */
 export function isDOMReady() {
   return (
@@ -524,9 +524,9 @@ export function isDOMReady() {
 }
 
 /**
- * 요소가 뷰포트에 있는지 확인합니다
- * @param {Element} element - 확인할 요소
- * @returns {boolean} 뷰포트 내 존재 여부
+ * Check if element is in viewport
+ * @param {Element} element - Element to check
+ * @returns {boolean} Whether element is in viewport
  */
 export function isElementInViewport(element) {
   if (!element || typeof element.getBoundingClientRect !== "function") {
@@ -544,8 +544,8 @@ export function isElementInViewport(element) {
 }
 
 /**
- * 브라우저 기능 감지 및 호환성 정보를 반환합니다
- * @returns {Object} 브라우저 호환성 정보
+ * Detect browser features and return compatibility information
+ * @returns {Object} Browser compatibility information
  */
 export function getBrowserCompatibility() {
   const transformSupport = getTransformSupport();
@@ -569,10 +569,10 @@ export function getBrowserCompatibility() {
 }
 
 /**
- * 호환성 기반 권장사항을 생성합니다
- * @param {Object} transformSupport - 변환 지원 정보
- * @param {Object} touchSupport - 터치 지원 정보
- * @returns {Array} 권장사항 배열
+ * Generate compatibility-based recommendations
+ * @param {Object} transformSupport - Transform support information
+ * @param {Object} touchSupport - Touch support information
+ * @returns {Array} Array of recommendations
  */
 function generateCompatibilityRecommendations(transformSupport, touchSupport) {
   const recommendations = [];
@@ -605,9 +605,9 @@ function generateCompatibilityRecommendations(transformSupport, touchSupport) {
 }
 
 /**
- * 안전한 requestAnimationFrame 실행 (폴백 포함)
- * @param {Function} callback - 실행할 콜백 함수
- * @returns {number} 애니메이션 프레임 ID
+ * Safe requestAnimationFrame execution (with fallback)
+ * @param {Function} callback - Callback function to execute
+ * @returns {number} Animation frame ID
  */
 export function safeRequestAnimationFrame(callback) {
   if (typeof requestAnimationFrame !== "undefined") {
@@ -619,14 +619,14 @@ export function safeRequestAnimationFrame(callback) {
   } else if (typeof msRequestAnimationFrame !== "undefined") {
     return msRequestAnimationFrame(callback);
   } else {
-    // 폴백: setTimeout 사용
+    // Fallback: use setTimeout
     return setTimeout(callback, 16); // ~60fps
   }
 }
 
 /**
- * 안전한 cancelAnimationFrame 실행 (폴백 포함)
- * @param {number} id - 애니메이션 프레임 ID
+ * Safe cancelAnimationFrame execution (with fallback)
+ * @param {number} id - Animation frame ID
  */
 export function safeCancelAnimationFrame(id) {
   if (typeof cancelAnimationFrame !== "undefined") {
@@ -638,26 +638,26 @@ export function safeCancelAnimationFrame(id) {
   } else if (typeof msCancelAnimationFrame !== "undefined") {
     msCancelAnimationFrame(id);
   } else {
-    // 폴백: clearTimeout 사용
+    // Fallback: use clearTimeout
     clearTimeout(id);
   }
 }
 
 /**
- * 브라우저별 CSS 속성 이름을 반환합니다
- * @param {string} property - 표준 CSS 속성 이름
- * @returns {string} 브라우저별 CSS 속성 이름
+ * Return browser-specific CSS property name
+ * @param {string} property - Standard CSS property name
+ * @returns {string} Browser-specific CSS property name
  */
 export function getCSSPropertyName(property) {
   const testElement = document.createElement("div");
   const style = testElement.style;
 
-  // 표준 속성이 지원되는지 확인
+  // Check if standard property is supported
   if (property in style) {
     return property;
   }
 
-  // 벤더 프리픽스 시도
+  // Try vendor prefixes
   const prefixes = ["webkit", "moz", "ms", "o"];
   const capitalizedProperty =
     property.charAt(0).toUpperCase() + property.slice(1);
@@ -669,12 +669,12 @@ export function getCSSPropertyName(property) {
     }
   }
 
-  return null; // 지원되지 않음
+  return null; // Not supported
 }
 
 /**
- * 레거시 브라우저 감지
- * @returns {Object} 레거시 브라우저 정보
+ * Detect legacy browser
+ * @returns {Object} Legacy browser information
  */
 export function detectLegacyBrowser() {
   const userAgent = navigator.userAgent.toLowerCase();

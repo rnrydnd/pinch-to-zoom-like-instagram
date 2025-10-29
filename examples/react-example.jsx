@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { PinchZoom, createPinchZoom, safePinchZoom } from "../src/index.js";
 
 /**
- * 단일 줌 가능한 이미지 컴포넌트
+ * Single zoomable image component
  */
 const ZoomableImage = ({
   src,
@@ -19,7 +19,7 @@ const ZoomableImage = ({
 
   useEffect(() => {
     if (imgRef.current) {
-      // 안전한 초기화 사용
+      // Use safe initialization
       const result = safePinchZoom(imgRef.current, {
         backgroundColor: "rgba(0, 0, 0, 0.8)",
         maxScale: 4,
@@ -44,7 +44,7 @@ const ZoomableImage = ({
       }
     }
 
-    // 정리 함수
+    // Cleanup function
     return () => {
       if (pinchZoomRef.current) {
         pinchZoomRef.current.destroy();
@@ -67,7 +67,7 @@ const ZoomableImage = ({
           boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
         }}
         onLoad={() => {
-          // 이미지 로드 완료 후 재초기화 (필요한 경우)
+          // Re-initialize after image load (if needed)
           if (!isInitialized && imgRef.current) {
             const result = safePinchZoom(imgRef.current, options);
             if (result.success) {
@@ -85,7 +85,7 @@ const ZoomableImage = ({
             marginTop: "5px",
           }}
         >
-          PinchZoom 초기화 실패: {error}
+          PinchZoom initialization failed: {error}
         </div>
       )}
     </div>
@@ -93,7 +93,7 @@ const ZoomableImage = ({
 };
 
 /**
- * 이미지 갤러리 컴포넌트
+ * Image gallery component
  */
 const ImageGallery = ({ images = [], galleryOptions = {}, className = "" }) => {
   const galleryRef = useRef(null);
@@ -102,12 +102,12 @@ const ImageGallery = ({ images = [], galleryOptions = {}, className = "" }) => {
 
   useEffect(() => {
     if (galleryRef.current && images.length > 0) {
-      // 기존 인스턴스 정리
+      // Clean up existing instance
       if (pinchZoomRef.current) {
         pinchZoomRef.current.destroy();
       }
 
-      // 이미지 로드 완료 대기
+      // Wait for image load completion
       const imageElements = galleryRef.current.querySelectorAll("img");
       const loadPromises = Array.from(imageElements).map((img) => {
         return new Promise((resolve) => {
@@ -121,7 +121,7 @@ const ImageGallery = ({ images = [], galleryOptions = {}, className = "" }) => {
       });
 
       Promise.all(loadPromises).then(() => {
-        // 갤러리에 PinchZoom 적용
+        // Apply PinchZoom to gallery
         const result = safePinchZoom(imageElements, {
           backgroundColor: "rgba(255, 255, 255, 0.9)",
           maxScale: 5,
@@ -182,14 +182,15 @@ const ImageGallery = ({ images = [], galleryOptions = {}, className = "" }) => {
           color: "#666",
         }}
       >
-        갤러리 통계: {stats.initialized}/{stats.total} 이미지에 PinchZoom 적용됨
+        Gallery stats: PinchZoom applied to {stats.initialized}/{stats.total}{" "}
+        images
       </div>
     </div>
   );
 };
 
 /**
- * PinchZoom 설정 컨트롤 컴포넌트
+ * PinchZoom configuration control component
  */
 const PinchZoomControls = ({ onOptionsChange = null, currentOptions = {} }) => {
   const [options, setOptions] = useState({
@@ -219,11 +220,11 @@ const PinchZoomControls = ({ onOptionsChange = null, currentOptions = {} }) => {
         marginBottom: "20px",
       }}
     >
-      <h3 style={{ marginTop: 0 }}>PinchZoom 설정</h3>
+      <h3 style={{ marginTop: 0 }}>PinchZoom Settings</h3>
 
       <div style={{ display: "grid", gap: "15px" }}>
         <div>
-          <label>배경색:</label>
+          <label>Background Color:</label>
           <input
             type="text"
             value={options.backgroundColor}
@@ -236,7 +237,7 @@ const PinchZoomControls = ({ onOptionsChange = null, currentOptions = {} }) => {
         </div>
 
         <div>
-          <label>최대 확대 배율:</label>
+          <label>Max Scale:</label>
           <input
             type="range"
             min="2"
@@ -251,7 +252,7 @@ const PinchZoomControls = ({ onOptionsChange = null, currentOptions = {} }) => {
         </div>
 
         <div>
-          <label>최소 확대 배율:</label>
+          <label>Min Scale:</label>
           <input
             type="range"
             min="0.5"
@@ -267,7 +268,7 @@ const PinchZoomControls = ({ onOptionsChange = null, currentOptions = {} }) => {
         </div>
 
         <div>
-          <label>전환 시간:</label>
+          <label>Transition Duration:</label>
           <select
             value={options.transitionDuration}
             onChange={(e) =>
@@ -275,10 +276,10 @@ const PinchZoomControls = ({ onOptionsChange = null, currentOptions = {} }) => {
             }
             style={{ marginLeft: "10px", padding: "5px" }}
           >
-            <option value="0.1s">빠름 (0.1s)</option>
-            <option value="0.3s">보통 (0.3s)</option>
-            <option value="0.5s">느림 (0.5s)</option>
-            <option value="1s">매우 느림 (1s)</option>
+            <option value="0.1s">Fast (0.1s)</option>
+            <option value="0.3s">Normal (0.3s)</option>
+            <option value="0.5s">Slow (0.5s)</option>
+            <option value="1s">Very Slow (1s)</option>
           </select>
         </div>
       </div>
@@ -287,7 +288,7 @@ const PinchZoomControls = ({ onOptionsChange = null, currentOptions = {} }) => {
 };
 
 /**
- * 메인 앱 컴포넌트
+ * Main app component
  */
 const PinchZoomApp = () => {
   const [galleryOptions, setGalleryOptions] = useState({
@@ -300,69 +301,72 @@ const PinchZoomApp = () => {
     maxScale: 3,
   });
 
-  // 샘플 이미지 데이터
+  // Sample image data
   const galleryImages = [
     {
       id: 1,
       src: "https://picsum.photos/400/300?random=1",
-      alt: "갤러리 이미지 1",
+      alt: "Gallery Image 1",
     },
     {
       id: 2,
       src: "https://picsum.photos/400/300?random=2",
-      alt: "갤러리 이미지 2",
+      alt: "Gallery Image 2",
     },
     {
       id: 3,
       src: "https://picsum.photos/400/300?random=3",
-      alt: "갤러리 이미지 3",
+      alt: "Gallery Image 3",
     },
     {
       id: 4,
       src: "https://picsum.photos/400/300?random=4",
-      alt: "갤러리 이미지 4",
+      alt: "Gallery Image 4",
     },
     {
       id: 5,
       src: "https://picsum.photos/400/300?random=5",
-      alt: "갤러리 이미지 5",
+      alt: "Gallery Image 5",
     },
     {
       id: 6,
       src: "https://picsum.photos/400/300?random=6",
-      alt: "갤러리 이미지 6",
+      alt: "Gallery Image 6",
     },
   ];
 
   return (
     <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "20px" }}>
       <h1 style={{ textAlign: "center", marginBottom: "40px" }}>
-        🔍 PinchZoom React 예제
+        🔍 PinchZoom React Example
       </h1>
 
-      {/* 단일 이미지 섹션 */}
+      {/* Single image section */}
       <section style={{ marginBottom: "50px" }}>
-        <h2>📸 단일 이미지</h2>
+        <h2>📸 Single Image</h2>
         <PinchZoomControls
           currentOptions={singleImageOptions}
           onOptionsChange={setSingleImageOptions}
         />
         <ZoomableImage
           src="https://picsum.photos/600/400?random=10"
-          alt="단일 이미지 예제"
+          alt="Single Image Example"
           options={singleImageOptions}
           onInitialized={(instance) => {
-            console.log("단일 이미지 PinchZoom 초기화됨:", instance);
+            console.log("Single image PinchZoom initialized:", instance);
           }}
           onError={(error) => {
-            console.error("단일 이미지 PinchZoom 초기화 실패:", error);
+            console.error(
+              "Single image PinchZoom initialization failed:",
+              error
+            );
           }}
         />
       </section>
 
-      {/* 갤러리 섹션 */}
+      {/* Gallery section */}
       <section>
-        <h2>🖼️ 이미지 갤러리</h2>
+        <h2>🖼️ Image Gallery</h2>
         <PinchZoomControls
           currentOptions={galleryOptions}
           onOptionsChange={setGalleryOptions}
@@ -370,7 +374,7 @@ const PinchZoomApp = () => {
         <ImageGallery images={galleryImages} galleryOptions={galleryOptions} />
       </section>
 
-      {/* 사용법 안내 */}
+      {/* Usage guide */}
       <section
         style={{
           marginTop: "50px",
@@ -379,12 +383,16 @@ const PinchZoomApp = () => {
           borderRadius: "8px",
         }}
       >
-        <h3>💡 사용법</h3>
+        <h3>💡 Usage</h3>
         <ul>
-          <li>모바일 기기에서 두 손가락으로 이미지를 핀치하여 확대/축소</li>
-          <li>위의 설정 컨트롤을 사용하여 실시간으로 옵션 변경 가능</li>
-          <li>각 이미지는 독립적으로 PinchZoom이 적용됨</li>
-          <li>컴포넌트가 언마운트될 때 자동으로 정리됨</li>
+          <li>
+            Pinch images with two fingers on mobile devices to zoom in/out
+          </li>
+          <li>
+            Use the settings controls above to change options in real-time
+          </li>
+          <li>Each image has PinchZoom applied independently</li>
+          <li>Automatically cleaned up when component unmounts</li>
         </ul>
       </section>
     </div>
@@ -393,5 +401,5 @@ const PinchZoomApp = () => {
 
 export default PinchZoomApp;
 
-// 개별 컴포넌트들도 내보내기
+// Export individual components as well
 export { ZoomableImage, ImageGallery, PinchZoomControls };

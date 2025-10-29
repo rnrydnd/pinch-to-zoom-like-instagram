@@ -1,16 +1,16 @@
 <template>
   <div class="pinch-zoom-app">
-    <h1>🔍 PinchZoom Vue 예제</h1>
+    <h1>🔍 PinchZoom Vue Example</h1>
 
-    <!-- 단일 이미지 섹션 -->
+    <!-- Single image section -->
     <section class="section">
-      <h2>📸 단일 이미지</h2>
+      <h2>📸 Single Image</h2>
 
-      <!-- 설정 컨트롤 -->
+      <!-- Settings controls -->
       <div class="controls">
-        <h3>설정</h3>
+        <h3>Settings</h3>
         <div class="control-group">
-          <label>배경색:</label>
+          <label>Background Color:</label>
           <input
             v-model="singleImageOptions.backgroundColor"
             type="text"
@@ -18,7 +18,7 @@
           />
         </div>
         <div class="control-group">
-          <label>최대 확대 배율:</label>
+          <label>Max Scale:</label>
           <input
             v-model.number="singleImageOptions.maxScale"
             type="range"
@@ -28,20 +28,20 @@
           <span>{{ singleImageOptions.maxScale }}x</span>
         </div>
         <div class="control-group">
-          <label>전환 시간:</label>
+          <label>Transition Duration:</label>
           <select v-model="singleImageOptions.transitionDuration">
-            <option value="0.1s">빠름 (0.1s)</option>
-            <option value="0.3s">보통 (0.3s)</option>
-            <option value="0.5s">느림 (0.5s)</option>
-            <option value="1s">매우 느림 (1s)</option>
+            <option value="0.1s">Fast (0.1s)</option>
+            <option value="0.3s">Normal (0.3s)</option>
+            <option value="0.5s">Slow (0.5s)</option>
+            <option value="1s">Very Slow (1s)</option>
           </select>
         </div>
       </div>
 
-      <!-- 단일 이미지 컴포넌트 -->
+      <!-- Single image component -->
       <ZoomableImage
         :src="'https://picsum.photos/600/400?random=10'"
-        :alt="'단일 이미지 예제'"
+        :alt="'Single Image Example'"
         :options="singleImageOptions"
         @initialized="onSingleImageInitialized"
         @error="onSingleImageError"
@@ -56,15 +56,15 @@
       </div>
     </section>
 
-    <!-- 갤러리 섹션 -->
+    <!-- Gallery section -->
     <section class="section">
-      <h2>🖼️ 이미지 갤러리</h2>
+      <h2>🖼️ Image Gallery</h2>
 
-      <!-- 갤러리 설정 -->
+      <!-- Gallery settings -->
       <div class="controls">
-        <h3>갤러리 설정</h3>
+        <h3>Gallery Settings</h3>
         <div class="control-group">
-          <label>배경색:</label>
+          <label>Background Color:</label>
           <input
             v-model="galleryOptions.backgroundColor"
             type="text"
@@ -72,7 +72,7 @@
           />
         </div>
         <div class="control-group">
-          <label>최대 확대 배율:</label>
+          <label>Max Scale:</label>
           <input
             v-model.number="galleryOptions.maxScale"
             type="range"
@@ -82,15 +82,15 @@
           <span>{{ galleryOptions.maxScale }}x</span>
         </div>
         <div class="control-group">
-          <button @click="addGalleryImages" class="btn">➕ 이미지 추가</button>
+          <button @click="addGalleryImages" class="btn">➕ Add Images</button>
           <button @click="removeGalleryImages" class="btn">
-            ➖ 이미지 제거
+            ➖ Remove Images
           </button>
-          <button @click="showGalleryStats" class="btn">📊 통계 보기</button>
+          <button @click="showGalleryStats" class="btn">📊 Show Stats</button>
         </div>
       </div>
 
-      <!-- 갤러리 컴포넌트 -->
+      <!-- Gallery component -->
       <ImageGallery
         :images="galleryImages"
         :options="galleryOptions"
@@ -98,29 +98,29 @@
       />
 
       <div v-if="galleryStats" class="stats">
-        갤러리 통계: {{ galleryStats.initialized }}/{{
+        Gallery Stats: PinchZoom applied to {{ galleryStats.initialized }}/{{
           galleryStats.total
         }}
-        이미지에 PinchZoom 적용됨
+        images
       </div>
     </section>
 
-    <!-- 고급 기능 섹션 -->
+    <!-- Advanced features section -->
     <section class="section">
-      <h2>🔧 고급 기능</h2>
+      <h2>🔧 Advanced Features</h2>
 
       <div class="controls">
         <button @click="testErrorHandling" class="btn btn-warning">
-          🧪 에러 처리 테스트
+          🧪 Error Handling Test
         </button>
         <button @click="performanceTest" class="btn btn-info">
-          ⚡ 성능 테스트
+          ⚡ Performance Test
         </button>
         <button @click="memoryTest" class="btn btn-secondary">
-          🧠 메모리 테스트
+          🧠 Memory Test
         </button>
         <button @click="compatibilityTest" class="btn btn-primary">
-          🌐 호환성 테스트
+          🌐 Compatibility Test
         </button>
       </div>
 

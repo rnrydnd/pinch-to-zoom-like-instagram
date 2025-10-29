@@ -1,9 +1,9 @@
 /**
- * 에러 처리 및 로깅 유틸리티
+ * Error handling and logging utilities
  */
 
 /**
- * 로그 레벨 상수
+ * Log level constants
  */
 export const LOG_LEVELS = {
   ERROR: "error",
@@ -13,7 +13,7 @@ export const LOG_LEVELS = {
 };
 
 /**
- * PinchZoom 라이브러리의 로거 클래스
+ * Logger class for PinchZoom library
  */
 export class Logger {
   constructor(prefix = "PinchZoom") {
@@ -22,17 +22,17 @@ export class Logger {
   }
 
   /**
-   * 로깅 활성화/비활성화
-   * @param {boolean} enabled - 로깅 활성화 여부
+   * Enable/disable logging
+   * @param {boolean} enabled - Whether logging is enabled
    */
   setEnabled(enabled) {
     this.enabled = enabled;
   }
 
   /**
-   * 에러 로그
-   * @param {string} message - 에러 메시지
-   * @param {...any} args - 추가 인자들
+   * Error log
+   * @param {string} message - Error message
+   * @param {...any} args - Additional arguments
    */
   error(message, ...args) {
     if (this.enabled && console.error) {
@@ -41,9 +41,9 @@ export class Logger {
   }
 
   /**
-   * 경고 로그
-   * @param {string} message - 경고 메시지
-   * @param {...any} args - 추가 인자들
+   * Warning log
+   * @param {string} message - Warning message
+   * @param {...any} args - Additional arguments
    */
   warn(message, ...args) {
     if (this.enabled && console.warn) {
@@ -52,9 +52,9 @@ export class Logger {
   }
 
   /**
-   * 정보 로그
-   * @param {string} message - 정보 메시지
-   * @param {...any} args - 추가 인자들
+   * Info log
+   * @param {string} message - Info message
+   * @param {...any} args - Additional arguments
    */
   info(message, ...args) {
     if (this.enabled && console.info) {
@@ -63,9 +63,9 @@ export class Logger {
   }
 
   /**
-   * 디버그 로그
-   * @param {string} message - 디버그 메시지
-   * @param {...any} args - 추가 인자들
+   * Debug log
+   * @param {string} message - Debug message
+   * @param {...any} args - Additional arguments
    */
   debug(message, ...args) {
     if (this.enabled && console.debug) {
@@ -75,25 +75,25 @@ export class Logger {
 }
 
 /**
- * 기본 로거 인스턴스
+ * Default logger instance
  */
 export const logger = new Logger();
 
 /**
- * 에러 핸들러 클래스
+ * Error handler class
  */
 export class ErrorHandler {
   constructor(logger) {
     this.logger = logger || new Logger();
-    this.errorCounts = new Map(); // 에러 발생 횟수 추적
-    this.maxRetries = 3; // 최대 재시도 횟수
+    this.errorCounts = new Map(); // Track error occurrence count
+    this.maxRetries = 3; // Maximum retry count
   }
 
   /**
-   * 입력 유효성 검사 에러 처리
-   * @param {string} message - 에러 메시지
-   * @param {any} input - 잘못된 입력값
-   * @returns {boolean} false를 반환하여 처리 중단을 나타냄
+   * Handle input validation errors
+   * @param {string} message - Error message
+   * @param {any} input - Invalid input value
+   * @returns {boolean} Returns false to indicate processing should stop
    */
   handleValidationError(message, input) {
     this.logger.warn(`Validation Error: ${message}`, input);
@@ -101,11 +101,11 @@ export class ErrorHandler {
   }
 
   /**
-   * 런타임 에러 처리
-   * @param {string} operation - 실행 중이던 작업
-   * @param {Error} error - 발생한 에러
-   * @param {any} context - 에러 발생 컨텍스트
-   * @returns {boolean} false를 반환하여 처리 중단을 나타냄
+   * Handle runtime errors
+   * @param {string} operation - Operation that was being executed
+   * @param {Error} error - Error that occurred
+   * @param {any} context - Error context
+   * @returns {boolean} Returns false to indicate processing should stop
    */
   handleRuntimeError(operation, error, context) {
     this.logger.error(
@@ -117,10 +117,10 @@ export class ErrorHandler {
   }
 
   /**
-   * 초기화 에러 처리
-   * @param {string} reason - 초기화 실패 이유
-   * @param {any} element - 문제가 된 요소
-   * @returns {boolean} false를 반환하여 처리 중단을 나타냄
+   * Handle initialization errors
+   * @param {string} reason - Reason for initialization failure
+   * @param {any} element - Problematic element
+   * @returns {boolean} Returns false to indicate processing should stop
    */
   handleInitializationError(reason, element) {
     this.logger.warn(`Initialization failed: ${reason}`, element);
@@ -128,11 +128,11 @@ export class ErrorHandler {
   }
 
   /**
-   * 설정 검증 에러 처리
-   * @param {string} optionName - 잘못된 옵션 이름
-   * @param {any} value - 잘못된 값
-   * @param {any} defaultValue - 기본값
-   * @returns {any} 기본값 반환
+   * Handle configuration validation errors
+   * @param {string} optionName - Invalid option name
+   * @param {any} value - Invalid value
+   * @param {any} defaultValue - Default value
+   * @returns {any} Returns default value
    */
   handleConfigurationError(optionName, value, defaultValue) {
     this.logger.warn(
@@ -142,9 +142,9 @@ export class ErrorHandler {
   }
 
   /**
-   * 이미지가 아닌 요소에 대한 경고 처리
-   * @param {Element} element - 이미지가 아닌 요소
-   * @returns {boolean} false를 반환하여 처리 중단을 나타냄
+   * Handle warnings for non-image elements
+   * @param {Element} element - Non-image element
+   * @returns {boolean} Returns false to indicate processing should stop
    */
   handleNonImageWarning(element) {
     const tagName = element.tagName ? element.tagName.toLowerCase() : "unknown";
@@ -156,11 +156,11 @@ export class ErrorHandler {
   }
 
   /**
-   * 재시도 가능한 에러 처리
-   * @param {string} operation - 작업 설명
-   * @param {Function} retryFn - 재시도할 함수
-   * @param {any} context - 컨텍스트
-   * @returns {any} 성공 시 결과, 실패 시 null
+   * Handle retryable errors
+   * @param {string} operation - Operation description
+   * @param {Function} retryFn - Function to retry
+   * @param {any} context - Context
+   * @returns {any} Result on success, null on failure
    */
   handleRetryableError(operation, retryFn, context = null) {
     const key = `${operation}_${context ? context.toString() : "default"}`;
@@ -175,7 +175,7 @@ export class ErrorHandler {
 
     try {
       const result = retryFn();
-      // 성공 시 에러 카운트 리셋
+      // Reset error count on success
       this.errorCounts.delete(key);
       return result;
     } catch (error) {
@@ -199,11 +199,11 @@ export class ErrorHandler {
   }
 
   /**
-   * 안전한 함수 실행 - 에러가 발생해도 애플리케이션이 중단되지 않도록 함
-   * @param {Function} fn - 실행할 함수
-   * @param {string} operation - 작업 설명
-   * @param {any} fallback - 에러 발생 시 반환할 기본값
-   * @returns {any} 함수 실행 결과 또는 fallback 값
+   * Safe function execution - Prevents application from crashing on errors
+   * @param {Function} fn - Function to execute
+   * @param {string} operation - Operation description
+   * @param {any} fallback - Default value to return on error
+   * @returns {any} Function execution result or fallback value
    */
   safeExecute(fn, operation, fallback = null) {
     try {
@@ -215,15 +215,15 @@ export class ErrorHandler {
   }
 
   /**
-   * 에러 통계 초기화
+   * Reset error statistics
    */
   resetErrorCounts() {
     this.errorCounts.clear();
   }
 
   /**
-   * 현재 에러 통계 반환
-   * @returns {Object} 에러 통계 정보
+   * Return current error statistics
+   * @returns {Object} Error statistics information
    */
   getErrorStats() {
     return {
@@ -235,6 +235,6 @@ export class ErrorHandler {
 }
 
 /**
- * 기본 에러 핸들러 인스턴스
+ * Default error handler instance
  */
 export const errorHandler = new ErrorHandler(logger);

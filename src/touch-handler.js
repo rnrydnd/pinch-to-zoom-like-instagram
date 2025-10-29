@@ -1,5 +1,5 @@
 /**
- * 터치 이벤트 처리를 담당하는 TouchHandler 클래스
+ * TouchHandler class responsible for touch event handling
  */
 
 import {
@@ -22,25 +22,25 @@ export class TouchHandler {
     this.currentScale = 1;
     this.touches = [];
 
-    // 터치 지원 정보 및 이벤트 이름 가져오기
+    // Get touch support information and event names
     this.touchSupport = getTouchSupport();
     this.eventNames = getTouchEventNames();
 
-    // 바인딩된 메서드들 (이벤트 리스너 제거를 위해 필요)
+    // Bound methods (needed for event listener removal)
     this.boundHandleTouchStart = this.handleTouchStart.bind(this);
     this.boundHandleTouchMove = this.handleTouchMove.bind(this);
     this.boundHandleTouchEnd = this.handleTouchEnd.bind(this);
   }
 
   /**
-   * 터치 이벤트 리스너를 바인딩합니다 (크로스 브라우저 지원)
+   * Bind touch event listeners (cross-browser support)
    */
   bindEvents() {
     return errorHandler.safeExecute(
       () => {
         const options = { passive: false };
 
-        // 크로스 브라우저 이벤트 바인딩
+        // Cross-browser event binding
         addEvent(
           this.element,
           this.eventNames.start,
@@ -74,14 +74,14 @@ export class TouchHandler {
   }
 
   /**
-   * 터치 이벤트 리스너를 제거합니다 (크로스 브라우저 지원)
+   * Remove touch event listeners (cross-browser support)
    */
   unbindEvents() {
     return errorHandler.safeExecute(
       () => {
         const options = { passive: false };
 
-        // 크로스 브라우저 이벤트 제거
+        // Cross-browser event removal
         removeEvent(
           this.element,
           this.eventNames.start,
@@ -115,8 +115,8 @@ export class TouchHandler {
   }
 
   /**
-   * 터치 시작 이벤트 처리 (크로스 브라우저 지원)
-   * @param {TouchEvent|PointerEvent|MouseEvent} event - 터치/포인터/마우스 이벤트
+   * Handle touch start event (cross-browser support)
+   * @param {TouchEvent|PointerEvent|MouseEvent} event - Touch/pointer/mouse event
    */
   handleTouchStart(event) {
     event = normalizeEvent(event);
@@ -136,7 +136,7 @@ export class TouchHandler {
 
       const midpoint = getMidpoint(touch1, touch2);
 
-      // 콜백 실행
+      // Execute callback
       if (this.callbacks.onTouchStart) {
         this.callbacks.onTouchStart({
           initialDistance: this.initialDistance,
@@ -148,8 +148,8 @@ export class TouchHandler {
   }
 
   /**
-   * 터치 이동 이벤트 처리 (크로스 브라우저 지원)
-   * @param {TouchEvent|PointerEvent|MouseEvent} event - 터치/포인터/마우스 이벤트
+   * Handle touch move event (cross-browser support)
+   * @param {TouchEvent|PointerEvent|MouseEvent} event - Touch/pointer/mouse event
    */
   handleTouchMove(event) {
     event = normalizeEvent(event);
@@ -165,13 +165,13 @@ export class TouchHandler {
       const currentDistance = getDistance(touch1, touch2);
       const midpoint = getMidpoint(touch1, touch2);
 
-      // 스케일 계산
+      // Calculate scale
       const scaleFactor = currentDistance / this.initialDistance;
       this.currentScale = scaleFactor;
 
       this.touches = touches;
 
-      // 콜백 실행
+      // Execute callback
       if (this.callbacks.onTouchMove) {
         this.callbacks.onTouchMove({
           scaleFactor,
@@ -186,8 +186,8 @@ export class TouchHandler {
   }
 
   /**
-   * 터치 종료 이벤트 처리 (크로스 브라우저 지원)
-   * @param {TouchEvent|PointerEvent|MouseEvent} event - 터치/포인터/마우스 이벤트
+   * Handle touch end event (cross-browser support)
+   * @param {TouchEvent|PointerEvent|MouseEvent} event - Touch/pointer/mouse event
    */
   handleTouchEnd(event) {
     event = normalizeEvent(event);
@@ -203,7 +203,7 @@ export class TouchHandler {
       this.currentScale = 1;
       this.touches = [];
 
-      // 콜백 실행
+      // Execute callback
       if (this.callbacks.onTouchEnd) {
         this.callbacks.onTouchEnd();
       }
@@ -211,26 +211,26 @@ export class TouchHandler {
   }
 
   /**
-   * 이벤트에서 터치 포인트를 추출합니다 (크로스 브라우저 지원)
-   * @param {TouchEvent|PointerEvent|MouseEvent} event - 이벤트 객체
-   * @returns {Array} 터치 포인트 배열
+   * Extract touch points from event (cross-browser support)
+   * @param {TouchEvent|PointerEvent|MouseEvent} event - Event object
+   * @returns {Array} Array of touch points
    */
   extractTouches(event) {
     if (event.touches) {
-      // 터치 이벤트
+      // Touch events
       return Array.from(event.touches);
     } else if (event.pointerType !== undefined) {
-      // 포인터 이벤트 - 현재는 단일 포인터만 지원
+      // Pointer events - currently only single pointer supported
       return event.isPrimary ? [event] : [];
     } else {
-      // 마우스 이벤트 - 폴백으로 단일 포인트만 지원
+      // Mouse events - fallback with single point support only
       return [event];
     }
   }
 
   /**
-   * 현재 터치 상태를 반환합니다
-   * @returns {Object} 터치 상태 정보
+   * Return current touch state
+   * @returns {Object} Touch state information
    */
   getTouchState() {
     return {
@@ -244,7 +244,7 @@ export class TouchHandler {
   }
 
   /**
-   * TouchHandler를 정리합니다
+   * Clean up TouchHandler
    */
   destroy() {
     this.unbindEvents();

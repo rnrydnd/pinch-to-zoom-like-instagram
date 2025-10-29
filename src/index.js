@@ -1,5 +1,5 @@
 /**
- * PinchZoom 라이브러리 - Instagram과 같은 핀치 줌 기능을 제공하는 바닐라 JavaScript 라이브러리
+ * PinchZoom Library - Vanilla JavaScript library providing Instagram-like pinch zoom functionality
  */
 
 import { TouchHandler } from "./touch-handler.js";
@@ -19,7 +19,7 @@ import {
 import { errorHandler, logger } from "./error-handler.js";
 
 /**
- * 기본 설정 옵션
+ * Default configuration options
  */
 const DEFAULT_OPTIONS = {
   backgroundColor: "rgba(255, 255, 255, 0.8)",
@@ -30,22 +30,22 @@ const DEFAULT_OPTIONS = {
 };
 
 /**
- * PinchZoom 메인 클래스
+ * PinchZoom main class
  */
 export class PinchZoom {
   constructor(target, options = {}) {
-    // DOM 환경 확인
+    // Check DOM environment
     if (!isDOMReady()) {
       throw new Error(
         "PinchZoom requires a DOM environment. Make sure to initialize after DOM is ready."
       );
     }
 
-    // 브라우저 호환성 확인
+    // Check browser compatibility
     this.compatibility = getBrowserCompatibility();
     this.legacyBrowser = detectLegacyBrowser();
 
-    // 호환성 경고 출력
+    // Output compatibility warnings
     if (!this.compatibility.touch.supported) {
       logger.warn(
         "Touch events are not supported in this environment. PinchZoom may not work as expected."
@@ -64,24 +64,24 @@ export class PinchZoom {
       );
     }
 
-    // 호환성 권장사항 출력
+    // Output compatibility recommendations
     this.compatibility.recommendations.forEach((recommendation) => {
       logger.info(`Compatibility: ${recommendation}`);
     });
 
-    // 입력 대상 검증
+    // Validate input target
     const targetValidation = validateTarget(target);
     if (!targetValidation.isValid) {
       throw new Error(`Invalid target: ${targetValidation.error}`);
     }
 
-    // 옵션 검증 및 정리
+    // Validate and sanitize options
     const { sanitized: validatedOptions, errors } = validateAndSanitizeOptions(
       options,
       DEFAULT_OPTIONS
     );
 
-    // 옵션 에러가 있으면 경고 출력
+    // Output option errors as warnings
     if (errors.length > 0) {
       errors.forEach((error) => {
         errorHandler.handleConfigurationError(
@@ -98,12 +98,12 @@ export class PinchZoom {
     this.isInitialized = false;
     this.initializationErrors = [];
 
-    // 자동 초기화
+    // Auto-initialize
     this.init();
   }
 
   /**
-   * PinchZoom을 초기화합니다
+   * Initialize PinchZoom
    */
   init() {
     if (this.isInitialized) {
@@ -111,7 +111,7 @@ export class PinchZoom {
       return this;
     }
 
-    // 초기화 에러 목록 초기화
+    // Initialize error list
     this.initializationErrors = [];
 
     const elements = errorHandler.safeExecute(
@@ -131,7 +131,7 @@ export class PinchZoom {
     let skipCount = 0;
 
     elements.forEach((element, index) => {
-      // 요소 유효성 검사
+      // Validate element
       const imageValidation = validateImageElement(element);
 
       if (!imageValidation.isValid) {
@@ -142,12 +142,12 @@ export class PinchZoom {
         return;
       }
 
-      // 경고가 있으면 출력하지만 계속 진행
+      // Output warning but continue if there's a warning
       if (imageValidation.warning) {
         logger.warn(`Element ${index + 1}: ${imageValidation.warning}`);
       }
 
-      // 요소 초기화 시도
+      // Attempt to initialize element
       const success = this.initializeElement(element);
       if (success) {
         successCount++;
@@ -158,7 +158,7 @@ export class PinchZoom {
 
     this.isInitialized = true;
 
-    // 초기화 결과 로깅
+    // Log initialization results
     if (successCount > 0) {
       logger.info(`PinchZoom initialized on ${successCount} elements`);
     }
@@ -175,27 +175,27 @@ export class PinchZoom {
   }
 
   /**
-   * 개별 요소에 PinchZoom을 초기화합니다
-   * @param {Element} element - 초기화할 이미지 요소
-   * @returns {boolean} 초기화 성공 여부
+   * Initialize PinchZoom on individual element
+   * @param {Element} element - Image element to initialize
+   * @returns {boolean} Whether initialization was successful
    */
   initializeElement(element) {
     return (
       errorHandler.handleRetryableError(
         "element initialization",
         () => {
-          // 이미 초기화된 요소인지 확인
+          // Check if element is already initialized
           if (element._pinchZoomInstance) {
             logger.warn("Element already has PinchZoom initialized", element);
             return false;
           }
 
-          // 요소가 DOM에 연결되어 있는지 확인
+          // Check if element is attached to DOM
           if (!document.contains(element)) {
             throw new Error("Element is not attached to the DOM");
           }
 
-          // 컴포넌트 인스턴스 생성 (재시도 가능한 방식으로)
+          // Create component instances (with retry capability)
           const overlayManager = errorHandler.safeExecute(
             () => new OverlayManager(this.options),
             "creating overlay manager",
@@ -212,7 +212,7 @@ export class PinchZoom {
             throw new Error("Failed to create required components");
           }
 
-          // 터치 핸들러 콜백 설정
+          // Set up touch handler callbacks
           const touchCallbacks = {
             onTouchStart: () => {
               errorHandler.safeExecute(
@@ -225,16 +225,16 @@ export class PinchZoom {
               errorHandler.safeExecute(() => {
                 const { scaleFactor } = data;
 
-                // 스케일 제한 적용
+                // Apply scale limits
                 const clampedScale = Math.min(
                   Math.max(scaleFactor, this.options.minScale),
                   this.options.maxScale
                 );
 
-                // 줌 적용
+                // Apply zoom
                 zoomController.applyTransform(clampedScale, 0, 0);
 
-                // 오버레이 투명도 업데이트 (스케일에 비례)
+                // Update overlay opacity (proportional to scale)
                 const opacity = Math.min(
                   (0.8 * (clampedScale - 1)) / (this.options.maxScale - 1),
                   0.8
@@ -245,7 +245,7 @@ export class PinchZoom {
 
             onTouchEnd: () => {
               errorHandler.safeExecute(() => {
-                // 원래 상태로 복원
+                // Restore to original state
                 zoomController.resetTransform();
                 overlayManager.updateOverlay(0);
               }, "handling touch end");
@@ -262,7 +262,7 @@ export class PinchZoom {
             throw new Error("Failed to create touch handler");
           }
 
-          // 이벤트 바인딩
+          // Bind events
           const bindingSuccess = errorHandler.safeExecute(
             () => touchHandler.bindEvents(),
             "binding touch events",
@@ -273,12 +273,12 @@ export class PinchZoom {
             throw new Error("Failed to bind touch events");
           }
 
-          // 트랜지션 종료 이벤트 처리
+          // Handle transition end events
           errorHandler.safeExecute(() => {
             zoomController.onTransitionEnd(() => {
               const state = zoomController.getTransformState();
               if (!state.isZoomed) {
-                // 줌이 완전히 해제되었을 때 오버레이 숨김
+                // Hide overlay when zoom is completely released
                 setTimeout(() => {
                   errorHandler.safeExecute(
                     () => overlayManager.updateOverlay(0),
@@ -289,7 +289,7 @@ export class PinchZoom {
             });
           }, "setting up transition end handler");
 
-          // 인스턴스 정보 저장
+          // Store instance information
           const instance = {
             element,
             touchHandler,
@@ -311,8 +311,8 @@ export class PinchZoom {
   }
 
   /**
-   * 옵션을 업데이트합니다
-   * @param {Object} newOptions - 새로운 옵션
+   * Update options
+   * @param {Object} newOptions - New options
    */
   updateOptions(newOptions) {
     if (!newOptions || typeof newOptions !== "object") {
@@ -323,13 +323,13 @@ export class PinchZoom {
       return this;
     }
 
-    // 새 옵션 검증
+    // Validate new options
     const { sanitized: validatedOptions, errors } = validateAndSanitizeOptions(
       newOptions,
       this.options
     );
 
-    // 검증 에러가 있으면 경고 출력
+    // Output validation errors as warnings
     if (errors.length > 0) {
       errors.forEach((error) => {
         errorHandler.handleConfigurationError(
@@ -340,17 +340,17 @@ export class PinchZoom {
       });
     }
 
-    // 유효한 옵션만 업데이트
+    // Update only valid options
     this.options = validatedOptions;
 
-    // 각 인스턴스에 옵션 업데이트 적용
+    // Apply option updates to each instance
     let updateCount = 0;
     this.instances.forEach((instance, index) => {
       const success = errorHandler.safeExecute(
         () => {
           instance.options = { ...this.options };
 
-          // 컴포넌트별 옵션 업데이트
+          // Update options for each component
           if (
             instance.zoomController &&
             typeof instance.zoomController.updateOptions === "function"
@@ -385,19 +385,19 @@ export class PinchZoom {
   }
 
   /**
-   * PinchZoom을 제거하고 정리합니다
+   * Remove and clean up PinchZoom
    */
   destroy() {
     this.instances.forEach((instance) => {
       const { element, touchHandler, zoomController, overlayManager } =
         instance;
 
-      // 컴포넌트 정리
+      // Clean up components
       touchHandler.destroy();
       zoomController.destroy();
       overlayManager.destroy();
 
-      // 요소에서 인스턴스 참조 제거
+      // Remove instance reference from element
       delete element._pinchZoomInstance;
     });
 
@@ -409,8 +409,8 @@ export class PinchZoom {
   }
 
   /**
-   * 현재 상태 정보를 반환합니다
-   * @returns {Object} 상태 정보
+   * Return current state information
+   * @returns {Object} State information
    */
   getState() {
     return {
@@ -429,17 +429,17 @@ export class PinchZoom {
   }
 
   /**
-   * 초기화 에러 목록을 반환합니다
-   * @returns {string[]} 에러 메시지 배열
+   * Return initialization error list
+   * @returns {string[]} Array of error messages
    */
   getInitializationErrors() {
     return [...this.initializationErrors];
   }
 
   /**
-   * 특정 요소의 PinchZoom 인스턴스를 반환합니다
-   * @param {Element} element - 찾을 요소
-   * @returns {Object|null} 인스턴스 또는 null
+   * Return PinchZoom instance for specific element
+   * @param {Element} element - Element to find
+   * @returns {Object|null} Instance or null
    */
   getInstance(element) {
     if (!element) {
@@ -452,8 +452,8 @@ export class PinchZoom {
   }
 
   /**
-   * 라이브러리의 건강 상태를 확인합니다
-   * @returns {Object} 건강 상태 정보
+   * Check library health status
+   * @returns {Object} Health status information
    */
   healthCheck() {
     const activeInstances = this.instances.filter((instance) => {
@@ -477,10 +477,10 @@ export class PinchZoom {
   }
 
   /**
-   * 건강 상태에 따른 권장사항을 생성합니다
-   * @param {Array} activeInstances - 활성 인스턴스 배열
-   * @param {number} orphanedInstances - 고아 인스턴스 수
-   * @returns {string[]} 권장사항 배열
+   * Generate recommendations based on health status
+   * @param {Array} activeInstances - Array of active instances
+   * @param {number} orphanedInstances - Number of orphaned instances
+   * @returns {string[]} Array of recommendations
    */
   generateRecommendations(activeInstances, orphanedInstances) {
     const recommendations = [];
@@ -526,10 +526,10 @@ export class PinchZoom {
 }
 
 /**
- * 팩토리 함수 - 간편한 사용을 위한 대안
- * @param {string|Element|NodeList} target - 대상 요소
- * @param {Object} options - 옵션
- * @returns {PinchZoom|null} PinchZoom 인스턴스 또는 null (실패 시)
+ * Factory function - Alternative for convenient usage
+ * @param {string|Element|NodeList} target - Target element
+ * @param {Object} options - Options
+ * @returns {PinchZoom|null} PinchZoom instance or null (on failure)
  */
 export function createPinchZoom(target, options = {}) {
   return errorHandler.safeExecute(
@@ -540,9 +540,9 @@ export function createPinchZoom(target, options = {}) {
 }
 
 /**
- * 안전한 PinchZoom 생성 함수 - 에러를 던지지 않고 결과 객체를 반환
- * @param {string|Element|NodeList} target - 대상 요소
- * @param {Object} options - 옵션
+ * Safe PinchZoom creation function - Returns result object without throwing errors
+ * @param {string|Element|NodeList} target - Target element
+ * @param {Object} options - Options
  * @returns {Object} {success: boolean, instance: PinchZoom|null, error: string|null}
  */
 export function safePinchZoom(target, options = {}) {
@@ -562,10 +562,10 @@ export function safePinchZoom(target, options = {}) {
   }
 }
 
-// 기본 내보내기
+// Default export
 export default PinchZoom;
 
-// 브라우저 환경에서 전역 객체로 사용 가능하도록 설정
+// Make available as global object in browser environment
 if (typeof window !== "undefined") {
   window.PinchZoom = PinchZoom;
   window.createPinchZoom = createPinchZoom;
