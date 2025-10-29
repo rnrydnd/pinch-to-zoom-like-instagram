@@ -1,23 +1,40 @@
 {
-  "name": "pinch-to-zoom-like-instagram",
+  "name": "vanilla-pinch-zoom",
   "version": "1.0.0",
-  "description": "pinch to zoom function like instagram.  for vanilla JS.",
-  "main": "index.js",
+  "description": "Instagram과 같은 핀치 줌 기능을 제공하는 바닐라 JavaScript 라이브러리",
+  "main": "dist/pinch-zoom.js",
+  "module": "src/index.js",
+  "browser": "dist/pinch-zoom.min.js",
+  "unpkg": "dist/pinch-zoom.min.js",
+  "jsdelivr": "dist/pinch-zoom.min.js",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "npm run build:dev && npm run build:prod",
+    "build:dev": "rollup -c rollup.config.js --environment NODE_ENV:development",
+    "build:prod": "rollup -c rollup.config.js --environment NODE_ENV:production",
+    "dev": "rollup -c rollup.config.js --environment NODE_ENV:development --watch",
+    "clean": "rm -rf dist/",
+    "prepublishOnly": "npm run clean && npm run build",
+    "prepack": "npm run build",
+    "postpack": "echo 'Package created successfully!'",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "version": "npm run build && git add dist/",
+    "postversion": "git push && git push --tags"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/rnrydnd/pinch-to-zoom-like-instagram.git"
   },
   "keywords": [
-    "instagram",
     "pinch",
-    "pinchtozoom",
-    "picture",
     "zoom",
+    "touch",
+    "mobile",
+    "vanilla",
     "javascript",
-    "vanilla"
+    "instagram",
+    "gesture",
+    "image"
   ],
   "author": {
     "name": "GyoungGu",
@@ -27,5 +44,32 @@
   "bugs": {
     "url": "https://github.com/rnrydnd/pinch-to-zoom-like-instagram/issues"
   },
-  "homepage": "https://github.com/rnrydnd/pinch-to-zoom-like-instagram#readme"
+  "homepage": "https://github.com/rnrydnd/pinch-to-zoom-like-instagram#readme",
+  "files": [
+    "dist/",
+    "src/",
+    "examples/",
+    "README.md",
+    "LICENSE"
+  ],
+  "devDependencies": {
+    "rollup": "^4.0.0",
+    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-node-resolve": "^15.2.3"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/rnrydnd"
+  },
+  "directories": {
+    "lib": "src",
+    "example": "examples"
+  },
+  "sideEffects": false
 }
