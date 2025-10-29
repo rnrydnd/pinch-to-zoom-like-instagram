@@ -1,28 +1,28 @@
 # 🔍 PinchZoom
 
-Instagram-like pinch zoom functionality for vanilla JavaScript
+Instagram과 같은 핀치 줌 기능을 제공하는 바닐라 JavaScript 라이브러리
 
 [![npm version](https://badge.fury.io/js/vanilla-pinch-zoom.svg)](https://badge.fury.io/js/vanilla-pinch-zoom)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-**English** | [한국어](README.ko.md)
+[English](README.md) | **한국어**
 
-## ✨ Features
+## ✨ 주요 기능
 
-- 📱 Mobile touch gesture support
-- ⚡ Lightweight (~15KB, zero dependencies)
-- 🎨 Customizable options
-- 🌐 Cross-browser compatibility
+- 📱 모바일 터치 제스처 지원
+- ⚡ 경량화 (약 15KB, 의존성 없음)
+- 🎨 커스터마이징 가능한 옵션
+- 🌐 크로스 브라우저 지원
 
-## 🚀 Quick Start
+## 🚀 빠른 시작
 
-### Installation
+### 설치
 
 ```bash
 npm install vanilla-pinch-zoom
 ```
 
-### Basic Usage
+### 기본 사용법
 
 ```html
 <!DOCTYPE html>
@@ -31,21 +31,21 @@ npm install vanilla-pinch-zoom
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
   <body>
-    <img id="my-image" src="image.jpg" alt="Zoomable image" />
+    <img id="my-image" src="image.jpg" alt="확대 가능한 이미지" />
 
     <script type="module">
       import { PinchZoom } from "vanilla-pinch-zoom";
 
-      // Initialize with default settings
+      // 기본 설정으로 초기화
       const pinchZoom = new PinchZoom("#my-image");
     </script>
   </body>
 </html>
 ```
 
-## 📖 Usage
+## 📖 사용 방법
 
-### ES6 Module
+### ES6 모듈
 
 ```javascript
 import { PinchZoom } from "vanilla-pinch-zoom";
@@ -56,7 +56,7 @@ const pinchZoom = new PinchZoom("#my-image", {
 });
 ```
 
-### Browser Direct Usage
+### 브라우저 직접 사용
 
 ```html
 <script src="dist/pinch-zoom.min.js"></script>
@@ -65,17 +65,17 @@ const pinchZoom = new PinchZoom("#my-image", {
 </script>
 ```
 
-## ⚙️ Configuration Options
+## ⚙️ 설정 옵션
 
-| Option               | Type     | Default                      | Description                   |
-| -------------------- | -------- | ---------------------------- | ----------------------------- |
-| `backgroundColor`    | `string` | `'rgba(255, 255, 255, 0.8)'` | Background overlay color      |
-| `maxScale`           | `number` | `5`                          | Maximum zoom scale            |
-| `minScale`           | `number` | `1`                          | Minimum zoom scale            |
-| `transitionDuration` | `string` | `'0.3s'`                     | Animation transition duration |
-| `zIndex`             | `number` | `1000`                       | Overlay z-index value         |
+| 옵션                 | 타입     | 기본값                       | 설명                     |
+| -------------------- | -------- | ---------------------------- | ------------------------ |
+| `backgroundColor`    | `string` | `'rgba(255, 255, 255, 0.8)'` | 줌 시 배경 오버레이 색상 |
+| `maxScale`           | `number` | `5`                          | 최대 확대 배율           |
+| `minScale`           | `number` | `1`                          | 최소 확대 배율           |
+| `transitionDuration` | `string` | `'0.3s'`                     | 애니메이션 전환 시간     |
+| `zIndex`             | `number` | `1000`                       | 오버레이의 z-index 값    |
 
-### Configuration Example
+### 설정 예제
 
 ```javascript
 const pinchZoom = new PinchZoom("#image", {
@@ -87,46 +87,46 @@ const pinchZoom = new PinchZoom("#image", {
 
 ## 📚 API
 
-### Constructor
+### 생성자
 
 ```javascript
 new PinchZoom(target, options);
 ```
 
-### Main Methods
+### 주요 메서드
 
 ```javascript
-pinchZoom.destroy(); // Remove instance
-pinchZoom.updateOptions(newOptions); // Update options
+pinchZoom.destroy(); // 인스턴스 제거
+pinchZoom.updateOptions(newOptions); // 옵션 업데이트
 ```
 
-## 🌐 Browser Support
+## 🌐 브라우저 지원
 
 - Chrome 60+, Firefox 55+, Safari 12+, Edge 79+
 - iOS Safari 12+, Android Chrome 60+
-- Internet Explorer 11 (limited support)
+- Internet Explorer 11 (제한적 지원)
 
-## 🛠️ Advanced Usage
+## 🛠️ 고급 사용법
 
-### Dynamic Image Handling
+### 동적 이미지 처리
 
 ```javascript
-// Apply PinchZoom after image loads
+// 이미지 로드 후 PinchZoom 적용
 img.onload = () => {
   new PinchZoom(img, options);
 };
 ```
 
-### Memory Management
+### 메모리 관리
 
 ```javascript
-// Clean up instance
+// 인스턴스 정리
 pinchZoom.destroy();
 ```
 
-## 📝 Examples
+## 📝 예제
 
-### React Component
+### React 컴포넌트
 
 ```jsx
 import React, { useEffect, useRef } from "react";
@@ -147,7 +147,7 @@ const ZoomableImage = ({ src, alt }) => {
 };
 ```
 
-### Vue Component
+### Vue 컴포넌트
 
 ```vue
 <template>
@@ -168,11 +168,11 @@ export default {
 </script>
 ```
 
-## 📄 License
+## 📄 라이선스
 
-MIT License
+MIT 라이선스
 
-## 📞 Support
+## 📞 지원
 
 - 🐛 [GitHub Issues](https://github.com/rnrydnd/pinch-to-zoom-like-instagram/issues)
 - 📧 mesquaker@gmail.com
