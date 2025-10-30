@@ -1,12 +1,12 @@
 {
-  "name": "vanilla-pinch-zoom",
+  "name": "pinch-zoom-like-instagram",
   "version": "1.0.0",
-  "description": "Instagram과 같은 핀치 줌 기능을 제공하는 바닐라 JavaScript 라이브러리",
-  "main": "dist/pinch-zoom.js",
+  "description": "A vanilla JavaScript library that provides Instagram-like pinch zoom functionality",
+  "main": "dist/pinch-zoom-like-instagram.js",
   "module": "src/index.js",
-  "browser": "dist/pinch-zoom.min.js",
-  "unpkg": "dist/pinch-zoom.min.js",
-  "jsdelivr": "dist/pinch-zoom.min.js",
+  "browser": "dist/pinch-zoom-like-instagram.min.js",
+  "unpkg": "dist/pinch-zoom-like-instagram.min.js",
+  "jsdelivr": "dist/pinch-zoom-like-instagram.min.js",
   "type": "module",
   "scripts": {
     "build": "npm run build:dev && npm run build:prod",

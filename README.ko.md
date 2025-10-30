@@ -2,7 +2,7 @@
 
 Instagram과 같은 핀치 줌 기능을 제공하는 바닐라 JavaScript 라이브러리
 
-[![npm version](https://badge.fury.io/js/vanilla-pinch-zoom.svg)](https://badge.fury.io/js/vanilla-pinch-zoom)
+[![npm version](https://badge.fury.io/js/pinch-zoom-like-instagram.svg)](https://badge.fury.io/js/pinch-zoom-like-instagram)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 [English](README.md) | **한국어**
@@ -19,7 +19,7 @@ Instagram과 같은 핀치 줌 기능을 제공하는 바닐라 JavaScript 라�
 ### 설치
 
 ```bash
-npm install vanilla-pinch-zoom
+npm install pinch-zoom-like-instagram
 ```
 
 ### 기본 사용법
@@ -34,7 +34,7 @@ npm install vanilla-pinch-zoom
     <img id="my-image" src="image.jpg" alt="확대 가능한 이미지" />
 
     <script type="module">
-      import { PinchZoom } from "vanilla-pinch-zoom";
+      import { PinchZoom } from "pinch-zoom-like-instagram";
 
       // 기본 설정으로 초기화
       const pinchZoom = new PinchZoom("#my-image");
@@ -48,7 +48,7 @@ npm install vanilla-pinch-zoom
 ### ES6 모듈
 
 ```javascript
-import { PinchZoom } from "vanilla-pinch-zoom";
+import { PinchZoom } from "pinch-zoom-like-instagram";
 
 const pinchZoom = new PinchZoom("#my-image", {
   backgroundColor: "rgba(0, 0, 0, 0.8)",
@@ -59,7 +59,7 @@ const pinchZoom = new PinchZoom("#my-image", {
 ### 브라우저 직접 사용
 
 ```html
-<script src="dist/pinch-zoom.min.js"></script>
+<script src="dist/pinch-zoom-like-instagram.min.js"></script>
 <script>
   const pinchZoom = new PinchZoom("#my-image");
 </script>
@@ -130,7 +130,7 @@ pinchZoom.destroy();
 
 ```jsx
 import React, { useEffect, useRef } from "react";
-import { PinchZoom } from "vanilla-pinch-zoom";
+import { PinchZoom } from "pinch-zoom-like-instagram";
 
 const ZoomableImage = ({ src, alt }) => {
   const imgRef = useRef(null);
@@ -155,7 +155,7 @@ const ZoomableImage = ({ src, alt }) => {
 </template>
 
 <script>
-import { PinchZoom } from "vanilla-pinch-zoom";
+import { PinchZoom } from "pinch-zoom-like-instagram";
 
 export default {
   mounted() {

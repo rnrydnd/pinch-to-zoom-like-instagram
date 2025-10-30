@@ -2,7 +2,7 @@
 
 Instagram-like pinch zoom functionality for vanilla JavaScript
 
-[![npm version](https://badge.fury.io/js/vanilla-pinch-zoom.svg)](https://badge.fury.io/js/vanilla-pinch-zoom)
+[![npm version](https://badge.fury.io/js/pinch-zoom-like-instagram.svg)](https://badge.fury.io/js/pinch-zoom-like-instagram)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 **English** | [한국어](README.ko.md)
@@ -19,7 +19,7 @@ Instagram-like pinch zoom functionality for vanilla JavaScript
 ### Installation
 
 ```bash
-npm install vanilla-pinch-zoom
+npm install pinch-zoom-like-instagram
 ```
 
 ### Basic Usage
@@ -34,7 +34,7 @@ npm install vanilla-pinch-zoom
     <img id="my-image" src="image.jpg" alt="Zoomable image" />
 
     <script type="module">
-      import { PinchZoom } from "vanilla-pinch-zoom";
+      import { PinchZoom } from "pinch-zoom-like-instagram";
 
       // Initialize with default settings
       const pinchZoom = new PinchZoom("#my-image");
@@ -48,7 +48,7 @@ npm install vanilla-pinch-zoom
 ### ES6 Module
 
 ```javascript
-import { PinchZoom } from "vanilla-pinch-zoom";
+import { PinchZoom } from "pinch-zoom-like-instagram";
 
 const pinchZoom = new PinchZoom("#my-image", {
   backgroundColor: "rgba(0, 0, 0, 0.8)",
@@ -59,7 +59,7 @@ const pinchZoom = new PinchZoom("#my-image", {
 ### Browser Direct Usage
 
 ```html
-<script src="dist/pinch-zoom.min.js"></script>
+<script src="dist/pinch-zoom-like-instagram.min.js"></script>
 <script>
   const pinchZoom = new PinchZoom("#my-image");
 </script>
@@ -130,7 +130,7 @@ pinchZoom.destroy();
 
 ```jsx
 import React, { useEffect, useRef } from "react";
-import { PinchZoom } from "vanilla-pinch-zoom";
+import { PinchZoom } from "pinch-zoom-like-instagram";
 
 const ZoomableImage = ({ src, alt }) => {
   const imgRef = useRef(null);
@@ -155,7 +155,7 @@ const ZoomableImage = ({ src, alt }) => {
 </template>
 
 <script>
-import { PinchZoom } from "vanilla-pinch-zoom";
+import { PinchZoom } from "pinch-zoom-like-instagram";
 
 export default {
   mounted() {

@@ -22,7 +22,7 @@ if (isDevelopment) {
     ...baseConfig,
     output: {
       ...baseConfig.output,
-      file: "dist/pinch-zoom.js",
+      file: "dist/pinch-zoom-like-instagram.js",
       sourcemap: true,
     },
   });
@@ -46,7 +46,7 @@ if (isProduction) {
     ],
     output: {
       ...baseConfig.output,
-      file: "dist/pinch-zoom.min.js",
+      file: "dist/pinch-zoom-like-instagram.min.js",
       sourcemap: true,
     },
   });
